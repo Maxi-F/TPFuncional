@@ -20,10 +20,19 @@ xt8088 = Microprocesador {
 siguienteInstruccion :: Int -> Int
 siguienteInstruccion pc = pc + 1
 
+intercambioValorDeLista :: [Int] -> Int -> Int -> [Int]
+intercambioValorDeLista memoria addr val = take (addr-1) memoria ++ [val] ++ drop addr memoria
 
 nop :: Microprocesador -> Microprocesador
 nop micro = micro {programCounter = siguienteInstruccion (programCounter micro)}
 
 str :: Int -> Int -> Microprocesador -> Microprocesador
 str addr val micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria no existente"}
-                   | otherwise = micro{memoria = take (addr-1) (memoria micro) ++ [val] ++ drop (addr) (memoria micro), programCounter = siguienteInstruccion (programCounter micro)}
+                   | otherwise = micro{memoria = intercambioValorDeLista (memoria micro) addr val, programCounter = siguienteInstruccion (programCounter micro)}
+
+lod :: Int -> Microprocesador -> Microprocesador
+lod addr micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria no existente"}
+               | otherwise = micro{acumuladorA = (memoria micro)!!addr, programCounter = siguienteInstruccion (programCounter micro)}
+
+lodv :: Int -> Microprocesador -> Microprocesador
+lodv val micro = micro{acumuladorA = val, programCounter = sigienteInstruccion (programCounter micro)}
