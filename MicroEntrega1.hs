@@ -36,3 +36,13 @@ lod addr micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria 
 
 lodv :: Int -> Microprocesador -> Microprocesador
 lodv val micro = micro{acumuladorA = val, programCounter = siguienteInstruccion (programCounter micro)}
+
+add :: Microprocesador -> Microprocesador
+add micro = micro{acumuladorA = acumuladorA + acumuladorB, acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
+
+divide :: Microprocesador -> Microprocesador
+divide micro = micro{acumuladorA = acumuladorA / acumuladorB, acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
+
+swap :: Microprocesador -> Microprocesador
+swap micro = micro{acumuladorA = acumuladorB, acumuladorB = acumuladorA, programCounter = siguienteInstruccion (programCounter micro)}
+
