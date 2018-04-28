@@ -32,7 +32,7 @@ str addr val micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memo
 
 lod :: Int -> Microprocesador -> Microprocesador
 lod addr micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria no existente"}
-               | otherwise = micro{acumuladorA = (memoria micro)!!addr, programCounter = siguienteInstruccion (programCounter micro)}
+               | otherwise = micro{acumuladorA = (memoria micro)!!(addr-1), programCounter = siguienteInstruccion (programCounter micro)}
 
 lodv :: Int -> Microprocesador -> Microprocesador
 lodv val micro = micro{acumuladorA = val, programCounter = siguienteInstruccion (programCounter micro)}
