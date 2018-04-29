@@ -44,5 +44,5 @@ swap :: Microprocesador -> Microprocesador
 swap micro = micro{acumuladorA = acumuladorB, acumuladorB = acumuladorA, programCounter = siguienteInstruccion (programCounter micro)}
 
 divide :: Microprocesador -> Microprocesador
-divide micro | micro{acumuladorB == 0} = micro{mensajeError = "DIVISION BY ZERO”}
+divide micro | (micro{acumuladorB})==0 = micro{mensajeError = "DIVISION BY ZERO”}
              | otherwise = micro{acumuladorA = acumuladorA / acumuladorB, acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
