@@ -50,8 +50,24 @@ divide :: Instruccion
 divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO", programCounter = siguienteInstruccion (programCounter micro)}
              | otherwise = micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
 
+fp20 = Microprocesador {
+  memoria = creacionMemoriaVacia 1024,
+  acumuladorA = 7,
+  acumuladorB = 24,
+  programCounter = 0,
+  mensajeError = ""
+}
+
 programaSumador :: Programa
 programaSumador = add.(lodv 22).swap.(lodv 10)
+
+at8086 = Microprocesador {
+  memoria = [1..20],
+  acumuladorA = 0,
+  acumuladorB = 0,
+  programCounter = 0,
+  mensajeError = ""
+}
 
 programaDivisionCero :: Programa
 programaDivisionCero = divide.(lod 1).swap.(lod 2).(str 2 0).(str 1 2)
