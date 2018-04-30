@@ -55,3 +55,6 @@ programaSumador = add.(lodv 22).swap.(lodv 10)
 
 programaDivisionCero :: Programa
 programaDivisionCero = divide.(lod 1).swap.(lod 2).(str 2 0).(str 1 2)
+
+programaDivisionDocePorCuatro :: Programa
+programaDivisionDocePorCuatro = divide.(lod 1).swap.(lod 2).(str 2 4).(str 1 12)
