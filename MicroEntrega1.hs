@@ -21,7 +21,7 @@
 --               .'';loollolll:...       .;'.
 --              .':;:loooolllllllcc::;;;;:c;
 --             ..:oc:cooloololllllllloool:,,
-        
+
 
 module MicroEntrega1 where
 
@@ -73,25 +73,25 @@ nop :: Instruccion
 nop micro = micro {programCounter = siguienteInstruccion (programCounter micro)}
 
 str :: Int -> Int -> Instruccion
-str addr val micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria no existente", programCounter = siguienteInstruccion (programCounter micro)}
-                   | otherwise = micro{memoria = intercambioValorDeLista (memoria micro) addr val, programCounter = siguienteInstruccion (programCounter micro)}
+str addr val micro | addr > 1024 = nop micro{mensajeError = "ERROR: Posicion de memoria no existente"}
+                   | otherwise = nop micro{memoria = intercambioValorDeLista (memoria micro) addr val}
 
 lod :: Int -> Instruccion
-lod addr micro | addr > 1024 = micro{mensajeError = "ERROR: Posicion de memoria no existente", programCounter = siguienteInstruccion (programCounter micro)}
-               | otherwise = micro{acumuladorA = (memoria micro)!!(addr-1), programCounter = siguienteInstruccion (programCounter micro)}
+lod addr micro | addr > 1024 = nop micro{mensajeError = "ERROR: Posicion de memoria no existente"}
+               | otherwise = nop micro{acumuladorA = (memoria micro)!!(addr-1)}
 
 lodv :: Int -> Instruccion
-lodv val micro = micro{acumuladorA = val, programCounter = siguienteInstruccion (programCounter micro)}
+lodv val micro = nop micro{acumuladorA = val}
 
 add :: Instruccion
-add micro = micro{acumuladorA = (acumuladorA micro) + (acumuladorB micro), acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
+add micro = nop micro{acumuladorA = (acumuladorA micro) + (acumuladorB micro), acumuladorB = 0}
 
 swap :: Instruccion
-swap micro = micro{acumuladorA = acumuladorB micro, acumuladorB = acumuladorA micro, programCounter = siguienteInstruccion (programCounter micro)}
+swap micro = nop micro{acumuladorA = acumuladorB micro, acumuladorB = acumuladorA micro}
 
 divide :: Instruccion
-divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO", programCounter = siguienteInstruccion (programCounter micro)}
-             | otherwise = micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0, programCounter = siguienteInstruccion (programCounter micro)}
+divide micro | (acumuladorB micro)==0 = nop micro{mensajeError = "DIVISION BY ZERO"}
+             | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
 programaSumador :: Programa
 programaSumador = add.(lodv 22).swap.(lodv 10)
