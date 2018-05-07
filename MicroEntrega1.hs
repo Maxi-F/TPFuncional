@@ -1,3 +1,28 @@
+--            ,,d00KKKKK0KKKKKKKKKKKKKKKKKKKKKk:,
+--          ,,':OK0K0KK00KKKKKKKKKKKKKKKKKKKKK0Oxxxxxxddoollc:;
+--       ;:clodO0KK00K00KKKKKKK0000OO0KKKKKKKKKKKKKKKKKKXKKKOxc
+--  :cloxkO0KKKKKKKKK0Okkkxxxdddddddx0KKKKKKKKKKKKKK00Okxolc:,'
+-- xO0KKKKKKKKKKKKKKKK0000OkOOOO0000KKKKKK0OOkkxxol::;,''..
+-- 000KKKKKKKKKKKKKKKKK00000OOOkkkxxxxdddoollclll:'.
+--  ::ccclllccccc:::;;;,,coolllllcclllllloooooolol:'.
+--          .           .:oooollllllllloolllllclcll;
+--         .            'cocclllll;,clccloolcclll;;:'.
+--         .           .:oc:clooll:;llcclooolc:clcc:'
+--          .         .;lllllccllllllllloloooll:clc,.
+--          .  .';;;..;lllllollollllllloolloloolc;'.                PUNTITO MÁS POR PONER UN ASCII ART??
+--          '..clccllcllllllloolooollllllllllolll;.
+--          '.;ll::cloolooloooooooooooooooooolloll;.                      TUTOR USTED ES DIABÓLICO
+--          '.,lolloolooloooooooooooooooooooooloooc,.
+--           '.,cllcllooooloooooooooooooooolloooool;.
+--                  ,colloololooooooooolooolccccc:;
+--                 .'colooolloolooollooooooolllc:;,
+--                 .'coloooooooollllllloooooooollollc;
+--                 .'coolloool:.........',::;::cccccc;
+--               .'';loollolll:...       .;'.
+--              .':;:loooolllllllcc::;;;;:c;
+--             ..:oc:cooloololllllllloool:,,
+        
+
 module MicroEntrega1 where
 
 creacionMemoriaVacia :: Int -> [Int]
