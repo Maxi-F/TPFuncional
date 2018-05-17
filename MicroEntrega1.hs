@@ -71,13 +71,16 @@ divide :: Instruccion
 divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO"}
              | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
-puntoDeCorteIFNZ :: [Instruccion] -> Microprocesador -> Bool
-puntoDeCorteIFNZ cola micro =  (length cola) == 0 || ((mensajeError micro) /= [])
+puntoDeCorteIFNZ :: Microprocesador -> Bool
+puntoDeCorteIFNZ micro = (acumuladorA micro) == 0 || ((mensajeError micro) /= [])
 
 ifnz :: [Instruccion] -> Instruccion
-ifnz (instruccion:cola) micro | puntoDeCorteIFNZ cola micro = micro
-                              | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR: acumulador A vacio"}
-                              | otherwise = ifnz cola (instruccion micro)
+ifnz instrucciones micro = foldl (ejecutarInstruccion) micro instrucciones
+
+ejecutarInstruccion :: Microprocesador -> Instruccion -> Microprocesador
+ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
+                                      | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR acumuladorA vacio"}
+                                      | otherwise = instruccion micro
 
 cargarProgramas :: [Instruccion] -> Programa
 cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
