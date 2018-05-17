@@ -5,6 +5,9 @@ import Text.Show.Functions
 creacionMemoriaVacia :: Int -> [Int]
 creacionMemoriaVacia espaciosVacios = replicate espaciosVacios 0
 
+creacionMemoriaInfEnCero :: [Int] 
+creacionMemoriaInfEnCero = repeat 0
+
 data Microprocesador = Microprocesador {
   memoria :: [Int],
   acumuladorA :: Int,
@@ -44,6 +47,15 @@ at8086 = Microprocesador {
   programas = []
 }
 
+microMemoriaInfinita = Microprocesador {
+  memoria = creacionMemoriaInfEnCero,
+  acumuladorA = 2,
+  acumuladorB = 3,
+  programCounter = 0,
+  mensajeError = "",
+  programas = [programaSumador]
+ }
+ 
 intercambioValorDeLista :: [Int] -> Int -> Int -> [Int]
 intercambioValorDeLista memoria addr val = take (addr-1) memoria ++ [val] ++ drop addr memoria
 
@@ -84,6 +96,14 @@ ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
 
 cargarProgramas :: [Instruccion] -> Programa
 cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
+
+ordenarMemoria :: [Int] -> [Int]
+ordenarMemoria [] = []
+ordenarMemoria (x1 : x2 : xs) | x2 > x1 = ordenarMemoria (x2 : xs)
+                              | otherwise = ordenarMemoria (x1 :xs)
+
+memoriaOrdenada :: Microprocesador -> Bool
+memoriaOrdenada micro = (memoria micro) == ordenarMemoria (memoria micro)
 
 programaSumador :: Programa
 programaSumador = add.(lodv 22).swap.(lodv 10)
