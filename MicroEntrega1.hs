@@ -72,10 +72,11 @@ divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO"}
              | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
 puntoDeCorteIFNZ :: [Instruccion] -> Microprocesador -> Bool
-puntoDeCorteIFNZ cola micro =  (length cola) == 0 || ((mensajeError micro) /= []) || (acumuladorA micro) == 0
+puntoDeCorteIFNZ cola micro =  (length cola) == 0 || ((mensajeError micro) /= [])
 
 ifnz :: [Instruccion] -> Instruccion
 ifnz (instruccion:cola) micro | puntoDeCorteIFNZ cola micro = micro
+                              | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR: acumulador A vacio"}
                               | otherwise = ifnz cola (instruccion micro)
 
 cargarProgramas :: [Instruccion] -> Programa
