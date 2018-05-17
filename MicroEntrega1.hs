@@ -11,7 +11,7 @@ data Microprocesador = Microprocesador {
   acumuladorB :: Int,
   programCounter :: Int,
   mensajeError :: String,
-  programas :: [Programa]
+  programas :: [Instruccion]
 } deriving Show
 
 type Instruccion = Microprocesador -> Microprocesador
