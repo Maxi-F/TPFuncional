@@ -53,7 +53,7 @@ microMemoriaInfinita = Microprocesador {
   acumuladorB = 3,
   programCounter = 0,
   mensajeError = "",
-  programas = programaSumador
+  programas = []
  }
 
 intercambioValorDeLista :: [Int] -> Int -> Int -> [Int]
