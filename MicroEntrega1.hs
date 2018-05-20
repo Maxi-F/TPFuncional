@@ -105,7 +105,7 @@ estaOrdenadaLaMemoria :: Microprocesador -> Bool
 estaOrdenadaLaMemoria = memoriaOrdenada.memoria
 
 memoriaOrdenada :: [Int] -> Bool
-memoriaOrdenada [] = True
+memoriaOrdenada [ ] = True
 memoriaOrdenada [_] = True
 memoriaOrdenada (x1:x2:xs) = (x2 >= x1) && memoriaOrdenada (x2:xs)
 
