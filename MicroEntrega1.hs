@@ -101,13 +101,13 @@ ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
 cargarProgramas :: Programa -> Instruccion
 cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
 
-ordenarMemoria :: [Int] -> [Int]
-ordenarMemoria [] = []
-ordenarMemoria (x1 : x2 : xs) | x2 > x1 = ordenarMemoria (x2 : xs)
-                              | otherwise = ordenarMemoria (x1 :xs)
+estaOrdenadaLaMemoria :: Microprocesador -> Bool
+estaOrdenadaLaMemoria = memoriaOrdenada.memoria
 
-memoriaOrdenada :: Microprocesador -> Bool
-memoriaOrdenada micro = (memoria micro) == ordenarMemoria (memoria micro)
+memoriaOrdenada :: [Int] -> Bool
+memoriaOrdenada [] = True
+memoriaOrdenada [_] = True
+memoriaOrdenada (x1:x2:xs) = (x2 >= x1) && memoriaOrdenada (x2:xs)
 
 programaSumador :: Programa
 programaSumador = [(lodv 10),swap,(lodv 22),add]
