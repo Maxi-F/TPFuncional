@@ -83,9 +83,6 @@ divide :: Instruccion
 divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO"}
              | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
-puntoDeCorteIFNZ :: Microprocesador -> Bool
-puntoDeCorteIFNZ micro = (acumuladorA micro) == 0 || ((mensajeError micro) /= [])
-
 ifnz :: Programa -> Instruccion
 ifnz instrucciones micro | (acumuladorA micro) == 0 = micro
                          | otherwise = foldl (ejecutarInstruccion.validacionAcumulador) micro instrucciones
