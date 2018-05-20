@@ -5,7 +5,7 @@ import Text.Show.Functions
 creacionMemoriaVacia :: Int -> [Int]
 creacionMemoriaVacia espaciosVacios = replicate espaciosVacios 0
 
-creacionMemoriaInfEnCero :: [Int] 
+creacionMemoriaInfEnCero :: [Int]
 creacionMemoriaInfEnCero = repeat 0
 
 data Microprocesador = Microprocesador {
@@ -18,7 +18,7 @@ data Microprocesador = Microprocesador {
 } deriving Show
 
 type Instruccion = Microprocesador -> Microprocesador
-type Programa = Microprocesador -> Microprocesador
+type Programa = [Instruccion]
 
 xt8088 = Microprocesador {
   memoria = creacionMemoriaVacia 1024,
@@ -53,9 +53,9 @@ microMemoriaInfinita = Microprocesador {
   acumuladorB = 3,
   programCounter = 0,
   mensajeError = "",
-  programas = [programaSumador]
+  programas = programaSumador
  }
- 
+
 intercambioValorDeLista :: [Int] -> Int -> Int -> [Int]
 intercambioValorDeLista memoria addr val = take (addr-1) memoria ++ [val] ++ drop addr memoria
 
@@ -86,15 +86,22 @@ divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO"}
 puntoDeCorteIFNZ :: Microprocesador -> Bool
 puntoDeCorteIFNZ micro = (acumuladorA micro) == 0 || ((mensajeError micro) /= [])
 
-ifnz :: [Instruccion] -> Instruccion
-ifnz instrucciones micro = foldl (ejecutarInstruccion) micro instrucciones
+ifnz :: Programa -> Instruccion
+ifnz instrucciones micro | (acumuladorA micro) == 0 = micro
+                         | otherwise = foldl (ejecutarInstruccion.validacionAcumulador) micro instrucciones
+
+validacionAcumulador :: Instruccion
+validacionAcumulador micro | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR: AcumuladorA en 0."}
+                           | otherwise = micro
+
+ejecutarPrograma :: Programa -> Microprocesador -> Microprocesador
+ejecutarPrograma instrucciones micro = foldl (ejecutarInstruccion) micro instrucciones
 
 ejecutarInstruccion :: Microprocesador -> Instruccion -> Microprocesador
 ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
-                                      | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR acumuladorA vacio"}
                                       | otherwise = instruccion micro
 
-cargarProgramas :: [Instruccion] -> Programa
+cargarProgramas :: Programa -> Instruccion
 cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
 
 ordenarMemoria :: [Int] -> [Int]
@@ -106,10 +113,10 @@ memoriaOrdenada :: Microprocesador -> Bool
 memoriaOrdenada micro = (memoria micro) == ordenarMemoria (memoria micro)
 
 programaSumador :: Programa
-programaSumador = add.(lodv 22).swap.(lodv 10)
+programaSumador = [(lodv 10),swap,(lodv 22),add]
 
 programaDivisionCero :: Programa
-programaDivisionCero = divide.(lod 1).swap.(lod 2).(str 2 0).(str 1 2)
+programaDivisionCero = [(str 1 2),(str 2 0),(lod 2),swap,(lod 1),divide]
 
-programaDivisionDocePorCuatro :: Programa
-programaDivisionDocePorCuatro = divide.(lod 1).swap.(lod 2).(str 2 4).(str 1 12)
+--programaDivisionDocePorCuatro :: Programa
+--programaDivisionDocePorCuatro = divide.(lod 1).swap.(lod 2).(str 2 4).(str 1 12)
