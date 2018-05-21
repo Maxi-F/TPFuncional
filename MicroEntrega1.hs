@@ -1,4 +1,4 @@
-module MicroEntrega1 where
+module MicroEntrega where
 
 import Text.Show.Functions
 
@@ -56,6 +56,15 @@ microMemoriaInfinita = Microprocesador {
   programas = []
  }
 
+microDesorden = Microprocesador{
+  memoria = [2, 5, 1, 0, 6, 9] ++ (creacionMemoriaVacia 1018),
+  acumuladorA = 0,
+  acumuladorB = 0,
+  programCounter = 0,
+  mensajeError = "",
+  programas = []
+ }
+
 intercambioValorDeLista :: [Int] -> Int -> Int -> [Int]
 intercambioValorDeLista memoria addr val = take (addr-1) memoria ++ [val] ++ drop addr memoria
 
@@ -80,7 +89,7 @@ swap :: Instruccion
 swap micro = nop micro{acumuladorA = acumuladorB micro, acumuladorB = acumuladorA micro}
 
 divide :: Instruccion
-divide micro | (acumuladorB micro)==0 = micro{mensajeError = "DIVISION BY ZERO"}
+divide micro | (acumuladorB micro)==0 = nop micro{mensajeError = "DIVISION BY ZERO"}
              | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
 ifnz :: Programa -> Instruccion
