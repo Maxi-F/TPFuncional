@@ -122,22 +122,22 @@ divide micro | (acumuladorB micro)==0 = nop micro{mensajeError = "DIVISION BY ZE
              | otherwise = nop micro{acumuladorA = div (acumuladorA micro) (acumuladorB micro), acumuladorB = 0}
 
 ifnz :: Programa -> Instruccion
-ifnz instrucciones micro | (acumuladorA micro) == 0 = micro
-                         | otherwise = foldl (ejecutarInstruccion.validacionAcumulador) micro instrucciones
+ifnz instrucciones micro  | validacionAcumulador micro = micro{mensajeError = "ERROR: acumuladorA en 0"}
+                          | otherwise =  foldl ejecutarInstruccion micro instrucciones 
 
-validacionAcumulador :: Instruccion
-validacionAcumulador micro | (acumuladorA micro) == 0 = micro{mensajeError = "ERROR: AcumuladorA en 0."}
-                           | otherwise = micro
+validacionAcumulador :: Microprocesador -> Bool
+validacionAcumulador micro | (acumuladorA micro) == 0 = True
+                           | otherwise = False
 
-ejecutarPrograma :: Programa -> Microprocesador -> Microprocesador
-ejecutarPrograma instrucciones micro = foldl (ejecutarInstruccion) micro instrucciones
+ejecutarPrograma :: Microprocesador -> Programa -> Microprocesador
+ejecutarPrograma micro programa = foldl (ejecutarInstruccion) micro programa
 
 ejecutarInstruccion :: Microprocesador -> Instruccion -> Microprocesador
-ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
+ejecutarInstruccion micro instruccion | ( null.mensajeError) micro  = micro
                                       | otherwise = instruccion micro
 
 cargarProgramas :: Programa -> Instruccion
-cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
+cargarProgramas instrucciones micro = micro{ programas = instrucciones }
 
 depurar :: Programa -> Microprocesador -> Programa
 depurar instrucciones micro = filter (instruccionNecesaria micro) instrucciones
