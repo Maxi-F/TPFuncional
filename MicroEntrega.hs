@@ -110,6 +110,15 @@ ejecutarInstruccion micro instruccion | (mensajeError micro) /= [] = micro
 cargarProgramas :: Programa -> Instruccion
 cargarProgramas instrucciones micro = micro{programas = (programas micro) ++ instrucciones}
 
+depurar :: Programa -> Microprocesador -> Programa
+depurar instrucciones micro = filter (instruccionNecesaria micro) instrucciones
+
+instruccionNecesaria :: Microprocesador -> Instruccion -> Bool
+instruccionNecesaria micro instruccion =  any (/=0).microVacio.instruccion $ micro
+
+microVacio :: Microprocesador -> [Int]
+microVacio micro = [acumuladorA micro, acumuladorB micro] ++ memoria micro
+
 estaOrdenadaLaMemoria :: Microprocesador -> Bool
 estaOrdenadaLaMemoria = memoriaOrdenada.memoria
 
